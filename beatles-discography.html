@@ -1,21 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Beatles — Discography</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Beatles — The Complete Discography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #ffffff;
+    --ink: #121212;
+    --ink-dim: #6b6b6b;
+    --line: #e2e0d8;
+    --green: #6f8f3a;
+    --green-deep: #4d6529;
+    --label: #141414;
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 8vh 6vw 6vh;
+    border-bottom: 3px solid var(--ink);
+  }
+  .disc-wrap{
+    width: min(58vw, 300px);
+    margin-bottom: 2.4rem;
+    animation: spin 26s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .disc-wrap{ animation: none; } }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    font-size:.68rem;
+    color: var(--ink-dim);
+    margin-bottom: 1.1rem;
+  }
+  h1.title{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size: clamp(2.8rem, 10vw, 6.5rem);
+    line-height: .88;
+    letter-spacing: .01em;
+    margin: 0 0 1.1rem;
+  }
+  h1.title .accent{ color: var(--green); }
+  .hero p.sub{
+    max-width: 46ch;
+    color: var(--ink-dim);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0 auto;
+  }
+  .scroll-cue{
+    margin-top: 2.6rem;
+    font-family:'Space Mono', monospace;
+    font-size:.68rem;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color: var(--ink-dim);
+  }
+
+  /* ---------- ERA NAV ---------- */
+  .index-bar{
+    position: sticky;
+    top:0;
+    z-index: 20;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--ink);
+    padding: .9rem 6vw;
+    display:flex;
+    gap: 1.4rem;
+    overflow-x:auto;
+    font-family:'Space Mono', monospace;
+    font-size:.7rem;
+    letter-spacing:.06em;
+  }
+  .index-bar a{
+    white-space:nowrap;
+    color: var(--ink-dim);
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .index-bar a:hover{ color: var(--ink); border-color: var(--green); }
+
+  /* ---------- MAIN ---------- */
+  main{
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 4.5rem 6vw 8rem;
+  }
+
+  .era{
+    margin-bottom: 4.5rem;
+  }
+  .era-head{
+    display:flex;
+    align-items:baseline;
+    gap: 1rem;
+    margin-bottom: .3rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: .6rem;
+  }
+  .era-num{
+    font-family:'Space Mono', monospace;
+    font-size: .8rem;
+    color: var(--green-deep);
+    font-weight: 700;
+  }
+  .era-title{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    letter-spacing: .01em;
+  }
+  .era-range{
+    margin-left:auto;
+    font-family:'Space Mono', monospace;
+    font-size:.75rem;
+    color: var(--ink-dim);
+  }
+  .era-blurb{
+    color: var(--ink-dim);
+    font-size:.92rem;
+    line-height:1.6;
+    max-width: 62ch;
+    margin: 1rem 0 2.2rem;
+  }
+
+  .album{
+    padding: 2rem 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 4.6rem;
+  }
+  .album:first-of-type{ border-top: none; padding-top: .5rem; }
+
+  .album-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap:wrap;
+    gap: .5rem 1.2rem;
+    margin-bottom: .2rem;
+  }
+  .album-title{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    font-size: clamp(1.3rem, 3.4vw, 1.9rem);
+    margin: 0;
+    position: relative;
+    display:inline-block;
+  }
+  .album-title::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:-3px;
+    width:0%;
+    height: 5px;
+    background: var(--green);
+    transition: width .25s ease;
+  }
+  .album:hover .album-title::after{ width:100%; }
+  .album-meta{
+    font-family:'Space Mono', monospace;
+    font-size:.76rem;
+    color: var(--ink-dim);
+  }
+  .album-note{
+    max-width: 62ch;
+    color: var(--ink-dim);
+    font-size:.9rem;
+    line-height:1.6;
+    margin: .5rem 0 1.4rem;
+  }
+
+  .tracklist{ list-style:none; margin:0; padding:0; }
+  .tracklist li{
+    display:flex;
+    align-items:center;
+    gap: 1rem;
+    padding: .5rem 0;
+    border-top: 1px dotted var(--line);
+  }
+  .tracklist li:first-child{ border-top:none; }
+  .t-num{
+    font-family:'Space Mono', monospace;
+    color: var(--ink-dim);
+    font-size:.76rem;
+    width: 2.2ch;
+    flex-shrink:0;
+  }
+  .t-name{ flex:1; font-size:.97rem; }
+  .t-link{
+    font-family:'Space Mono', monospace;
+    font-size:.66rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    padding: .32rem .75rem;
+    flex-shrink:0;
+    white-space:nowrap;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .t-link:hover{
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+
+  footer{
+    border-top: 3px solid var(--ink);
+    padding: 3rem 6vw 5rem;
+    text-align:center;
+    color: var(--ink-dim);
+    font-family:'Space Mono', monospace;
+    font-size:.7rem;
+    letter-spacing:.04em;
+    line-height:1.9;
+  }
+</style>
 </head>
 <body>
 
-    <h1>The Beatles</h1>
+<section class="hero">
+  <div class="disc-wrap">
+    <svg viewBox="0 0 300 300" width="100%" height="100%">
+      <circle cx="150" cy="150" r="146" fill="#141414"/>
+      <circle cx="150" cy="150" r="146" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+      <g fill="none" stroke="#2a2a2a" stroke-width="1">
+        <circle cx="150" cy="150" r="128"/>
+        <circle cx="150" cy="150" r="112"/>
+        <circle cx="150" cy="150" r="98"/>
+        <circle cx="150" cy="150" r="86"/>
+      </g>
+      <circle cx="150" cy="150" r="70" fill="#6f8f3a"/>
+      <path id="labelArc" d="M 150,90 A 60,60 0 1 1 149.9,90" fill="none"/>
+      <text font-family="Space Mono, monospace" font-size="11" letter-spacing="3" fill="#fefaf0">
+        <textPath href="#labelArc" startOffset="2">APPLE RECORDS · APPLE RECORDS ·</textPath>
+      </text>
+      <text x="150" y="155" text-anchor="middle" font-family="Anton, sans-serif" font-size="16" fill="#fefaf0">THE BEATLES</text>
+      <circle cx="150" cy="150" r="4" fill="#141414" stroke="#fefaf0" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="eyebrow">1963 — 1970 · Thirteen UK Studio Albums</div>
+  <h1 class="title">THE BEATLES<br><span class="accent">DISCOGRAPHY</span></h1>
+  <p class="sub">Four years of Merseybeat, three of studio reinvention, and one long goodbye — every UK studio album, grouped by era, every track linked out for a listen.</p>
+  <div class="scroll-cue">scroll ↓</div>
+</section>
 
-    <p>
-        The complete Beatles discography will be added here.
-    </p>
+<nav class="index-bar" id="indexBar"></nav>
 
-    <p>
-        <a href="index.html">← Back to Home</a>
-    </p>
+<main id="main"></main>
+
+<footer>
+  THE BEATLES — UK STUDIO DISCOGRAPHY, 1963–1970<br>
+  Track links open a search on YouTube so you can pick the version you like.<br>
+  Built for fans, not affiliated with The Beatles, Apple Corps, or their labels.
+</footer>
+
+<script>
+const eras = [
+  {
+    name: "The Merseybeat Years",
+    range: "1963–1964",
+    blurb: "Four albums cut fast, mostly live in the room — the sound of a Liverpool club band turning into the biggest act in the world.",
+    albums: [
+      { year:1963, title:"Please Please Me", note:"Recorded in a single day. The title track had just hit No. 1 in the UK.",
+        tracks:["I Saw Her Standing There","Misery","Anna (Go to Him)","Chains","Boys","Ask Me Why","Please Please Me","Love Me Do","P.S. I Love You","Baby It's You","Do You Want to Know a Secret","A Taste of Honey","There's a Place","Twist and Shout"] },
+      { year:1963, title:"With the Beatles", note:"Their second LP in under a year, and the first with the iconic half-shadow cover portrait.",
+        tracks:["It Won't Be Long","All I've Got to Do","All My Loving","Don't Bother Me","Little Child","Till There Was You","Please Mister Postman","Roll Over Beethoven","Hold Me Tight","You Really Got a Hold on Me","I Wanna Be Your Man","Devil in Her Heart","Not a Second Time","Money (That's What I Want)"] },
+      { year:1964, title:"A Hard Day's Night", note:"The first LP written entirely by Lennon–McCartney, doubling as the soundtrack to their film debut.",
+        tracks:["A Hard Day's Night","I Should Have Known Better","If I Fell","I'm Happy Just to Dance with You","And I Love Her","Tell Me Why","Can't Buy Me Love","Any Time at All","I'll Cry Instead","Things We Said Today","When I Get Home","You Can't Do That","I'll Be Back"] },
+      { year:1964, title:"Beatles for Sale", note:"Written and recorded under exhausting tour pressure — the fatigue shows up in the songs themselves.",
+        tracks:["No Reply","I'm a Loser","Baby's in Black","Rock and Roll Music","I'll Follow the Sun","Mr. Moonlight","Kansas City / Hey-Hey-Hey-Hey!","Eight Days a Week","Words of Love","Honey Don't","Every Little Thing","I Don't Want to Spoil the Party","What You're Doing","Everybody's Trying to Be My Baby"] },
+    ]
+  },
+  {
+    name: "Into the Studio",
+    range: "1965–1966",
+    blurb: "The band stops touring in all but name and starts treating the studio as an instrument — folk-rock, tape loops, and string arrangements enter the picture.",
+    albums: [
+      { year:1965, title:"Help!", note:"Another film tie-in, but the record itself points forward, closing on \"Yesterday.\"",
+        tracks:["Help!","The Night Before","You've Got to Hide Your Love Away","I Need You","Another Girl","You're Going to Lose That Girl","Ticket to Ride","Act Naturally","It's Only Love","You Like Me Too Much","Tell Me What You See","I've Just Seen a Face","Yesterday","Dizzy Miss Lizzy"] },
+      { year:1965, title:"Rubber Soul", note:"A leap in songwriting and sonics — sitar, fuzz bass, and a cover with the band's faces stretched and warped.",
+        tracks:["Drive My Car","Norwegian Wood (This Bird Has Flown)","You Won't See Me","Nowhere Man","Think for Yourself","The Word","Michelle","What Goes On","Girl","I'm Looking Through You","In My Life","Wait","If I Needed Someone","Run for Your Life"] },
+      { year:1966, title:"Revolver", note:"Backwards tape, a string octet, and a song sung through a Leslie speaker — the studio becomes the real instrument.",
+        tracks:["Taxman","Eleanor Rigby","I'm Only Sleeping","Love You To","Here, There and Everywhere","Yellow Submarine","She Said She Said","Good Day Sunshine","And Your Bird Can Sing","For No One","Doctor Robert","I Want to Tell You","Got to Get You into My Life","Tomorrow Never Knows"] },
+    ]
+  },
+  {
+    name: "The Psychedelic Peak",
+    range: "1967",
+    blurb: "Retired from the road entirely, the band spends months on two records built like collages — bright, strange, and dense with studio trickery.",
+    albums: [
+      { year:1967, title:"Sgt. Pepper's Lonely Hearts Club Band", note:"A concept record disguised as a fictional band's show — widely credited with changing what an album could be.",
+        tracks:["Sgt. Pepper's Lonely Hearts Club Band","With a Little Help from My Friends","Lucy in the Sky with Diamonds","Getting Better","Fixing a Hole","She's Leaving Home","Being for the Benefit of Mr. Kite!","Within You Without You","When I'm Sixty-Four","Lovely Rita","Good Morning Good Morning","Sgt. Pepper's Lonely Hearts Club Band (Reprise)","A Day in the Life"] },
+      { year:1967, title:"Magical Mystery Tour", note:"Soundtrack to their self-directed TV film, padded out (on the US LP) with the year's stand-alone singles.",
+        tracks:["Magical Mystery Tour","The Fool on the Hill","Flying","Blue Jay Way","Your Mother Should Know","I Am the Walrus","Hello, Goodbye","Strawberry Fields Forever","Penny Lane","Baby, You're a Rich Man","All You Need Is Love"] },
+    ]
+  },
+  {
+    name: "The Late Beatles",
+    range: "1968–1970",
+    blurb: "Fraying as a group even as the songwriting sharpens — a sprawling double album, a soundtrack, one last true collaboration, and the breakup record.",
+    albums: [
+      { year:1968, title:"The Beatles (\"The White Album\")", note:"Thirty songs, almost no group cohesion, and some of the most varied writing they ever put on one record.",
+        tracks:["Back in the U.S.S.R.","Dear Prudence","Glass Onion","Ob-La-Di, Ob-La-Da","Wild Honey Pie","The Continuing Story of Bungalow Bill","While My Guitar Gently Weeps","Happiness Is a Warm Gun","Martha My Dear","I'm So Tired","Blackbird","Piggies","Rocky Raccoon","Don't Pass Me By","Why Don't We Do It in the Road?","I Will","Julia","Birthday","Yer Blues","Mother Nature's Son","Everybody's Got Something to Hide Except Me and My Monkey","Sexy Sadie","Helter Skelter","Long, Long, Long","Revolution 1","Honey Pie","Savoy Truffle","Cry Baby Cry","Revolution 9","Good Night"] },
+      { year:1969, title:"Yellow Submarine", note:"Soundtrack to the animated film — six new Beatles songs on side one, a George Martin orchestral score fills out side two.",
+        tracks:["Yellow Submarine","Only a Northern Song","All Together Now","Hey Bulldog","It's All Too Much","All You Need Is Love"] },
+      { year:1969, title:"Abbey Road", note:"Recorded as their actual farewell, closing with a long medley and the fittingly titled \"The End.\"",
+        tracks:["Come Together","Something","Maxwell's Silver Hammer","Oh! Darling","Octopus's Garden","I Want You (She's So Heavy)","Here Comes the Sun","Because","You Never Give Me Your Money","Sun King","Mean Mr. Mustard","Polythene Pam","She Came in Through the Bathroom Window","Golden Slumbers","Carry That Weight","The End","Her Majesty"] },
+      { year:1970, title:"Let It Be", note:"Culled from the tense, filmed 'Get Back' sessions and released a month after the band's split.",
+        tracks:["Two of Us","Dig a Pony","Across the Universe","I Me Mine","Dig It","Let It Be","Maggie Mae","I've Got a Feeling","One After 909","The Long and Winding Road","For You Blue","Get Back"] },
+    ]
+  },
+];
+
+function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
+function ytSearch(album, track){
+  const q = encodeURIComponent(`The Beatles ${track.replace(/\(.*?\)/g,'').trim()} ${album}`);
+  return `https://www.youtube.com/results?search_query=${q}`;
+}
+
+const main = document.getElementById('main');
+const indexBar = document.getElementById('indexBar');
+let albumCounter = 0;
+
+eras.forEach((era, ei) => {
+  const eraSection = document.createElement('section');
+  eraSection.className = 'era';
+
+  const head = document.createElement('div');
+  head.className = 'era-head';
+  head.innerHTML = `
+    <span class="era-num">${String(ei+1).padStart(2,'0')}</span>
+    <span class="era-title">${era.name}</span>
+    <span class="era-range">${era.range}</span>
+  `;
+  eraSection.appendChild(head);
+
+  const blurb = document.createElement('p');
+  blurb.className = 'era-blurb';
+  blurb.textContent = era.blurb;
+  eraSection.appendChild(blurb);
+
+  era.albums.forEach(al => {
+    albumCounter++;
+    const id = `a${albumCounter}-${slug(al.title)}`;
+
+    const navLink = document.createElement('a');
+    navLink.href = `#${id}`;
+    navLink.textContent = `${al.year} · ${al.title}`;
+    indexBar.appendChild(navLink);
+
+    const section = document.createElement('div');
+    section.className = 'album';
+    section.id = id;
+
+    const albHead = document.createElement('div');
+    albHead.className = 'album-head';
+    albHead.innerHTML = `
+      <h3 class="album-title">${al.title}</h3>
+      <div class="album-meta">${al.year} · ${al.tracks.length} tracks</div>
+    `;
+    section.appendChild(albHead);
+
+    const note = document.createElement('p');
+    note.className = 'album-note';
+    note.textContent = al.note;
+    section.appendChild(note);
+
+    const ul = document.createElement('ul');
+    ul.className = 'tracklist';
+    al.tracks.forEach((t, ti) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span class="t-num">${String(ti+1).padStart(2,'0')}</span>
+        <span class="t-name">${t}</span>
+        <a class="t-link" target="_blank" rel="noopener" href="${ytSearch(al.title, t)}">Listen ↗</a>
+      `;
+      ul.appendChild(li);
+    });
+    section.appendChild(ul);
+
+    eraSection.appendChild(section);
+  });
+
+  main.appendChild(eraSection);
+});
+</script>
 
 </body>
 </html>
+beatles-discography.html
+Displaying beatles-discography.html.
