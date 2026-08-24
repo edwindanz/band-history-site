@@ -3,14 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=pink-floyd-discography.html">
-    <title>Pink Floyd — The Complete Discography</title>
+
+    <title>Music Archive</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0a0a0c;
+            color: #ece7de;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px 50px;
+            border-bottom: 1px solid #232228;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            color: #999;
+            font-size: 18px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: auto;
+            padding: 60px 20px;
+        }
+
+        .bands {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .band {
+            background: #111114;
+            border: 1px solid #29282e;
+            padding: 30px;
+            border-radius: 10px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .band:hover {
+            transform: translateY(-5px);
+            border-color: #f2d94e;
+        }
+
+        .band h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        .band p {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        .band a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 18px;
+            border: 1px solid #555;
+            border-radius: 20px;
+            color: #ece7de;
+            text-decoration: none;
+        }
+
+        .band a:hover {
+            background: #f2d94e;
+            color: #0a0a0c;
+            border-color: #f2d94e;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            border-top: 1px solid #232228;
+            font-size: 13px;
+        }
+    </style>
 </head>
+
 <body>
-    <p>
-        <a href="pink-floyd-discography.html">
-            Enter Pink Floyd Discography
-        </a>
-    </p>
+
+<header>
+    <h1>Music Archive</h1>
+    <p>Explore the history and discography of legendary bands.</p>
+</header>
+
+<main>
+
+    <div class="bands">
+
+        <div class="band">
+            <h2>Pink Floyd</h2>
+
+            <p>
+                Explore Pink Floyd's complete studio discography,
+                albums, tracks, and more.
+            </p>
+
+            <a href="pink-floyd-discography.html">
+                Explore Pink Floyd →
+            </a>
+        </div>
+
+        <div class="band">
+            <h2>The Beatles</h2>
+
+            <p>
+                Explore The Beatles' complete discography,
+                albums, tracks, and more.
+            </p>
+
+            <a href="beatles-discography.html">
+                Explore The Beatles →
+            </a>
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    Music Archive
+</footer>
+
 </body>
 </html>
